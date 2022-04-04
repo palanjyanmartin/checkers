@@ -1,6 +1,6 @@
 /**
  * The class Position
- * This class is created to create positions that will be used in our Chess game. The user will input the position where the object will be located and the position where it should be moved.
+ * This class is created to create positions that will be used in our Checkers game. The user will input the position where the object will be located and the position where it should be moved.
  * @author Martin Palanjyan
  * @author Arman khachatryan
  * @author Gor Hovakimyan
@@ -15,7 +15,7 @@ public class Position {
     private int position;
 
     /**
-     * No-arg constructor that will initialize the position of the top-left corner of the chessboard.
+     * No-arg constructor that will initialize the position of the top-left corner of the checkers board.
      */
 
     public Position() {
