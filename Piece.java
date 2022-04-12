@@ -1,12 +1,13 @@
+package am.aua.checkers.core;
 /**
  * @author Gor Hovakimyan <a href="mailto:gor_hovakimyan@edu.aua.am">gor_hovakimyan@edu.aua.am</a>
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 public class Piece {
 	
 /** represent the color of piece */
-	private Chess.PieceColor color;
+	private Checkers.PieceColor color;
 	
 	/**
      * A no-arg constructor, initializes with WHITE .
@@ -17,9 +18,9 @@ public class Piece {
 	
 	 /**
      * A copy constructor, initializes according to another
-     * <code>Chess.PieceColor</code> enum variable.
+     * <code>Checkers.PieceColor</code> enum variable.
      */
-	public Piece(Chess.PieceColor color) {
+	public Piece(Checkers.PieceColor color) {
 		this.color = color;
 	}
 	
@@ -29,12 +30,12 @@ public class Piece {
      *
      * @return          the color of the piece
      */
-	public Chess.PieceColor getPiece() {
+	public Checkers.PieceColor getPiece() {
 		return this.color;
 	}
 	
 	/** In this moment it just returns null. */
-	public Position[] allDestinations(Chess chess, Position p) {
+	public Position[] allDestinations(Checkers Checkers, Position p) {
 		return null;
 	}
 }
