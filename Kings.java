@@ -67,29 +67,31 @@ public class Kings extends Piece {
      */
 
     public static Position[] reachablePositions(Checkers checkers, Position p) {
-        int[] rankOffsets = {-1, -1, 1, 1};
-        int[] fileOffsets = {1, -1, 1, -1};
-        Position[] result = new Position[0];
+          public static Position[] reachablePositions(Checkers checkers, Position p) {
+            int[] newRank = {-1, -1, 1, 1};
+            int[] newFile = {1, -1, 1, -1};
+            Position[] result = new Position[0];
 
-        for (int d = 0; d < 4; d++) {
-            int i = p.getRank() + rankOffsets[d];
-            int j = p.getFile() + fileOffsets[d];
-            while (i >= 0 && i < checkers.BOARD_RANKS &&
-                    j >= 0 && j < checkers.BOARD_FILES) {
-                Position current = Position.generateFromRankAndFile(i, j);
+            for (int d = 0; d < 4; d++) {
+                int i = p.getRank() + newRank[d];
+                int j = p.getFile() + newFile[d];
+                while (i >= 0 && i < checkers.BOARD_RANKS &&
+                        j >= 0 && j < checkers.BOARD_FILES) {
+                    Position current = Position.generateFromRankAndFile(i, j);
 
-                if (checkers.isEmpty(current))
-                    result = Position.appendPositionsToArray(result, current);
-                else {
-                    if (checkers.getPieceAt(current).getPieceColors() != checkers.getPieceAt(p).getPieceColors())
+                    if (checkers.isEmpty(current))
                         result = Position.appendPositionsToArray(result, current);
-                    break;
+                    else {
+                        if (checkers.getPieceAt(current).getPieceColors() != checkers.getPieceAt(p).getPieceColors())
+                            result = Position.appendPositionsToArray(result, current);
+                        break;
+                    }
+                    i += newRank[d];
+                    j += newFile[d];
                 }
-                i += rankOffsets[d];
-                j += fileOffsets[d];
             }
-        }
-        return result;
+            return result;
+
     }
 
 
