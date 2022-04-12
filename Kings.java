@@ -23,7 +23,7 @@ public class Kings extends Piece {
      */
 
 
-    public Kings(checkers.PieceColor pieceColor) {
+    public Kings(Checkers.PieceColor pieceColor) {
         super(pieceColor);
     }
 
@@ -35,7 +35,7 @@ public class Kings extends Piece {
      */
 
     public String toString() {
-        if (this.getPieceColors() == checkers.PieceColor.WHITE)
+        if (this.getPieceColors() == Checkers.PieceColor.WHITE)
             return "B";
         else
             return "b";
@@ -51,7 +51,7 @@ public class Kings extends Piece {
      * that a Kings can move into from position <code>p</code>
      */
 
-    public Position[] allDestinations(checkers checkers, Position p) {
+    public Position[] allDestinations(Checkers checkers, Position p) {
         return Kings.reachablePositions(checkers, p);
     }
 
@@ -66,7 +66,7 @@ public class Kings extends Piece {
      * that a Kings can move into from position <code>p</code>
      */
 
-    public static Position[] reachablePositions(checkers checkers, Position p) {
+    public static Position[] reachablePositions(Checkers checkers, Position p) {
         int[] rankOffsets = {-1, -1, 1, 1};
         int[] fileOffsets = {1, -1, 1, -1};
         Position[] result = new Position[0];
