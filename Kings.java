@@ -67,7 +67,6 @@ public class Kings extends Piece {
      */
 
     public static Position[] reachablePositions(Checkers checkers, Position p) {
-          public static Position[] reachablePositions(Checkers checkers, Position p) {
             int[] newRank = {-1, -1, 1, 1};
             int[] newFile = {1, -1, 1, -1};
             Position[] result = new Position[0];
