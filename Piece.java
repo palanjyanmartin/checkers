@@ -1,7 +1,7 @@
+package am.aua.checkers.core;
 /**
- * @author Gor Hovakimyan <a href="mailto:gor_hovakimyan@edu.aua.am">gor_hovakimyan@edu.aua.am</a>
- * @version 1.0
- * @since 1.0
+ * @author Gor Hovakimyan
+* References Martin Palanjyan's HW09
  */
 public abstract class Piece {
 	
@@ -19,22 +19,41 @@ public abstract class Piece {
      * A copy constructor, initializes according to another
      * <code>Chess.PieceColor</code> enum variable.
      */
-	public Piece(Chess.PieceColor color) {
-		this.color = color;
-	}
-	
+    public abstract Position[] allDestinations(Chess chess, Position p);
 
     /**
-     * Accessor method for the color of the piece.
+     * An accessor for the color that cannot be overriden.
      *
-     * @return          the color of the piece
+     * @return
      */
-	public Chess.PieceColor getPiece() {
-		return this.color;
-	}
-	
-	/** In this moment it just returns null. */
-	public Position[] allDestinations(Chess chess, Position p) {
-		return null;
-	}
+
+    public final Chess.PieceColor getPieceColor() {
+        return this.color;
+    }
+
+
+    public Piece clone() {
+        try {
+            Piece copy = (Piece) super.clone();
+            copy.color = color;
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+
+
+    }
+
+    public boolean equals(Object otherObject) {
+        if (otherObject == null) {
+            return false;
+        } else if (getClass() != otherObject.getClass()) {
+            return false;
+        } else {
+            Piece otherPiece = (Piece) otherObject;
+            return (this.color.equals(otherPiece.getPieceColor()));
+        }
+
+
+    }
 }

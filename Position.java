@@ -1,12 +1,15 @@
+package am.aua.checkers.core;
+
 /**
  * The class Position
- * This class is created to create positions that will be used in our Checkers game. The user will input the position where the object will be located and the position where it should be moved.
- * @author Martin Palanjyan
- * @author Arman khachatryan
- * @author Gor Hovakimyan
+ * This class is created to create positions that will be used in our Chess game. The user will input the position where the object will be located and the position where it should be moved.
+ * @author martinpalanjyan
+ * @author armankhachatryan
+ * @author gorhovakimyan
  * References
- * Martin Palanjyan's Homework 07
+ * Martin Palanjyan's Homework 07.
  */
+
 public class Position {
     /**
      * Instance variables of the class Position.
@@ -15,7 +18,7 @@ public class Position {
     private int position;
 
     /**
-     * No-arg constructor that will initialize the position of the top-left corner of the checkers board.
+     * No-arg constructor that will initialize the position of the top-left corner of the chessboard.
      */
 
     public Position() {
@@ -30,20 +33,20 @@ public class Position {
      */
 
     public Position(Position position) {
-        this.rank = position.rank;
-        this.position = position.position;
+        this.setRank(position.rank);
+        this.setPosition(position.position);
 
     }
 
     /**
-     * Constructor that initializes instance variables rank and position to first and second of type int.
+     * Constructor that initializes instance variables rank and filePosition to first and second of type int.
      *
-     * @param first
-     * @param second
+     * @param newRank
+     * @param newPosition
      */
-    public Position(int first, int second) {
-        this.rank = first;
-        this.position = second;
+    public Position(int newRank, int newPosition) {
+        this.setRank(newRank);;
+        this.setPosition(newPosition);
 
     }
 
@@ -57,12 +60,11 @@ public class Position {
     }
 
     /**
-     * An accessor for the position.
+     * An accessor for the filePosition.
      *
      * @return
      */
     public int getPosition() {
-        
         return this.position;
     }
 
@@ -78,7 +80,7 @@ public class Position {
     }
 
     /**
-     * A mutator for the position, which gives an access to change the value of position to newPosition that is of type int.
+     * A mutator for the filePosition, which gives an access to change the value of filePosition to newFilePosition that is of type int.
      *
      * @param newPosition
      */
@@ -153,8 +155,7 @@ public class Position {
                 return null;
             }
 
-            Position p = new Position(newRank, newPosition);
-            return p;
+            return new Position(newRank, newPosition);
         } else
             return null;
     }
@@ -168,14 +169,13 @@ public class Position {
      */
     public static Position generateFromRankAndFile(int rank, int position) {
         if (rightRankPosition(rank) && rightRankPosition(position)) {
-            Position p = new Position(rank, position);
-            return p;
+            return new Position(rank, position);
         } else
             return null;
     }
 
     /**
-     * Methods that checks whether rank and position are valid, which means that their range is from 0 to 7.
+     * Methods that checks whether rank and filePosition are valid, which means that their range is from 0 to 7.
      *
      * @param number
      * @return
@@ -189,28 +189,27 @@ public class Position {
     }
 
     /**
-     * Method that appends given positions created using vararg specification to the end of an array.
+     * Method that appends a given position to the end of an array.
      *
      * @param arr
      * @param p
      * @return
      */
-     public static Position[] appendPositionsToArray(Position[] arr, Position... p) {
+    public static Position[] appendPositionsToArray(Position[] arr, Position... p) {
+        // Intentionally shallow
         int index = 0;
         Position[] result = new Position[arr.length + p.length];
         for (int i = 0; i < arr.length; i++) {
             result[i] = arr[i];
         }
+
         for (int i = arr.length; i < result.length; i++) {
             result[i] = p[index++];
         }
+
         return result;
     }
 
 
 }
-
-
-
-
 
