@@ -18,31 +18,70 @@ public class CheckersConsole {
     public void play() {
         Scanner sc = new Scanner(System.in);
         String inputLine;
-        game = new Checkers();
 
         print();
+        try{
 
         while (!game.isGameOver()) {
             if (game.getTurn() == Checkers.PieceColor.WHITE)
                 System.out.println("White's move: ");
             else
                 System.out.println("Black's move: ");
+
             inputLine = sc.nextLine();
             String[] input = inputLine.split(" ");
-            Position position = Position.generateFromString(input[0]);
-            if (position != null && (game.getPieceAt(position).getPieceColors() == game.getTurn())) {
-                if (input.length == 1)
-                    print(Position.generateFromString(input[0]));
+
+            Position p1 = null, p2 = null;
+
+            if (input.length >= 1) {
+                if (input[0].equals("resign")) {
+                    System.out.println(game.getTurn() + " has resigned.");
+                    return;
+                }
+
+                if (input[0].equals("debug")) {
+                    debug();
+                    print();
+                    continue;
+                }
+
+                p1 = Position.generateFromString(input[0]);
+
+                if (p1 == null || game.getPieceAt(p1) == null) {
+                    throw new IllegalMoveException;
+                    continue;
+                }
+
+                if (input.length == 1) {
+                    // Players are informed about wrong turns, but the squares for
+                    // the opponent's piece are still highlighted
+                    if (game.getPieceAt(p1).getPieceColor() != game.getTurn())
+                        throw new IllegalMoveException;
+                    print(p1);
+                }
                 else if (input.length == 2) {
-                    Move m = new Move(Position.generateFromString(input[0]),
-                            Position.generateFromString(input[1]));
-                    boolean success = game.performMove(m);
+                    if (game.getPieceAt(p1).getPieceColor() != game.getTurn()) {
+                        throw new IllegalMoveException;
+                        continue;
+                    }
+
+                    boolean success = false;
+
+                    p2 = Position.generateFromString(input[1]);
+
+                    // checking if p1 != null is not necessary
+                    // its negation is already checked on line 59
+                    if (p2 != null) {
+                        Move m = new Move(p1, p2);
+                        success = game.performMove(m);
+                    }
                     if (!success)
-                        System.out.println("Invalid move. Please try again.");
+                        throw new IllegalMoveException;
+                }catch (IllegalMoveException e){}
+
                     print();
                 }
-            } else
-                System.out.println("An invalid Request");
+            }
         }
     }
 
