@@ -4,10 +4,10 @@ package am.aua.checkers.core;
  * The <code>am.aua.checkers.core.checkers</code> class encapsulates the state of an ongoing game of
  * checkers.
  *
- * @author Martin Palanjyan
+ * @authors Martin Palanjyan, Gor Hovakimyan
  * References Martin Palanjyan's HW08
  */
-public class Checkers {
+public class Checkers implements Cloneable {
     
     //mutable, e.g. performMove modifies state
     /**
@@ -36,8 +36,8 @@ public class Checkers {
      * the board is filled with the standard initial configuration of the checkers board given by the string and the color
      * which indicates which player is about to make a move.
      */
-    public Checkers() {
-        this("MMMMMMMMMMMMMMM                                mmmmmmmmmmmmmmm", PieceColor.WHITE);
+    public Checkers() throws IllegalArrangementException {
+        this("-M-M-M-MM-M-M-M--M-M-M-M----------------m-m-m-m--m-m-m-mm-m-m-m-", PieceColor.WHITE);
     }
 
 
@@ -51,7 +51,7 @@ public class Checkers {
      * @param pieceColor
      */
 
-    public Checkers(String represent, Checkers.PieceColor pieceColor) {
+    public Checkers(String represent, Checkers.PieceColor pieceColor) throws IllegalArrangementException{
         this.board = new Piece[BOARD_RANKS][BOARD_FILES];
         int index = 0;
         for (int i = 0; i < BOARD_RANKS; i++) {
@@ -73,6 +73,19 @@ public class Checkers {
         }
 
     }
+    
+    /**
+    * Creats the clone of type Checkers.
+    */
+    public Checkers clone() {
+        try {
+            Checkers copy = (Checkers) super.clone();
+            copy.board = this.getBoard();
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
         /**
          * Returns a <code>Piece</code> matrix representing the game board and the
          * pieces on it.
@@ -85,7 +98,7 @@ public class Checkers {
             Piece[][] board = new Piece[BOARD_RANKS][BOARD_FILES];
             for (int i = 0; i < BOARD_RANKS; i++)
                 for (int j = 0; j < BOARD_FILES; j++)
-                    board[i][j] = this.board[i][j];
+                    board[i][j] = (Piece) this.board[i][j].clone();
             return board;
         }
 
