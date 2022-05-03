@@ -3,26 +3,22 @@ package am.aua.checkers.core;
  * @author Gor Hovakimyan
 * References Martin Palanjyan's HW09
  */
-
-public abstract class Piece implements Cloneable {
-    private Chess.PieceColor color;
-
-    public Piece(Chess.PieceColor color) {
-        this.color = color;
-    }
-
-    public Piece() {
-        this(Chess.PieceColor.WHITE);
-    }
-
-    /**
-     * An abstract method
-     *
-     * @param chess
-     * @param p
-     * @return
+public abstract class Piece {
+	
+/** represent the color of piece */
+	private Chess.PieceColor color;
+	
+	/**
+     * A no-arg constructor, initializes with WHITE .
      */
-
+	public Piece() {
+	 this.color = color.WHITE;
+	}
+	
+	 /**
+     * A copy constructor, initializes according to another
+     * <code>Chess.PieceColor</code> enum variable.
+     */
     public abstract Position[] allDestinations(Chess chess, Position p);
 
     /**
