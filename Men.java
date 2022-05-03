@@ -33,7 +33,7 @@ public class Men extends Piece {
      */
 
     public String toString() {
-        if (this.getPieceColors() == Checkers.PieceColor.WHITE)
+        if (this.getPieceColor() == Checkers.PieceColor.WHITE)
             return "M";
         else
             return "m";
@@ -59,11 +59,11 @@ public class Men extends Piece {
             Position current = Position.generateFromRankAndFile(p.getRank() - rankOfWhites[0], p.getPosition() - fileOfWhites[0]);
             Position current2 = Position.generateFromRankAndFile(p.getRank() - rankOfWhites[1], p.getPosition() - fileOfWhites[1]);
 
-            if ((current != null) && ((checkers.isEmpty(current)) || (checkers.getPieceAt(p).getPieceColors() != checkers.getPieceAt(current).getPieceColors()))) {
+            if ((current != null) && ((checkers.isEmpty(current)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current).getPieceColor()))) {
                 result = Position.appendPositionsToArray(result, current);
             }
 
-            if (current2 != null && (checkers.getPieceAt(current2) != null) && (checkers.getPieceAt(p).getPieceColors() != checkers.getPieceAt(current2).getPieceColors())) {
+            if (current2 != null && (checkers.getPieceAt(current2) != null) && (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor())) {
                 result = Position.appendPositionsToArray(result, current2);
             }
 
@@ -76,11 +76,11 @@ public class Men extends Piece {
             Position current2 = Position.generateFromRankAndFile(p.getRank() - rankOfBlacks[1], p.getPosition() - fileOfBlacks[1]);
 
 
-            if ((current != null) && (checkers.getPieceAt(current) != null) && (checkers.getPieceAt(p).getPieceColors() != checkers.getPieceAt(current).getPieceColors())) {
+            if ((current != null) && (checkers.getPieceAt(current) != null) && (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current).getPieceColor())) {
                 result = Position.appendPositionsToArray(result, current);
             }
 
-            if (current2 != null && (checkers.getPieceAt(current2) != null) && (checkers.getPieceAt(p).getPieceColors() != checkers.getPieceAt(current2).getPieceColors())) {
+            if (current2 != null && (checkers.getPieceAt(current2) != null) && (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor())) {
                 result = Position.appendPositionsToArray(result, current2);
             }
 
@@ -90,3 +90,4 @@ public class Men extends Piece {
         return new Position[0];
     }
 }
+
