@@ -186,10 +186,10 @@ public class Checkers implements Cloneable {
                         this.board[destination.getRank()][destination.getPosition()] =
                                 this.board[origin.getRank()][origin.getPosition()];
                         this.board[origin.getRank()][origin.getPosition()] = null;
-                        if (this.board[destination.getRank()][destination.getPosition()].getPieceColors() == PieceColor.WHITE) {
+                        if (this.board[destination.getRank()][destination.getPosition()].getPieceColor() == PieceColor.WHITE) {
                             color = PieceColor.BLACK;
                             return true;
-                        } else if (this.board[destination.getRank()][destination.getPosition()].getPieceColors() == PieceColor.BLACK) {
+                        } else if (this.board[destination.getRank()][destination.getPosition()].getPieceColor() == PieceColor.BLACK) {
                             color = PieceColor.WHITE;
                             return true;
                         }
