@@ -11,23 +11,39 @@ public class Kings extends Piece {
     private boolean moved;
 
     public Kings() {
-        super();
+        this(Checkers.PieceColor.WHITE);
     }
 
-    public Kings(Checkers.PieceColor pieceColor) {
-        super(pieceColor);
+    public Kings(Checkers.PieceColor color) {
+        this(color, false);
     }
 
-    public Kings(Checkers.PieceColor pieceColor, boolean moved) {
-        super(pieceColor);
+    public Kings(Checkers.PieceColor color, boolean moved) {
+        super(color);
         this.moved = moved;
     }
 
+    public boolean getHasMoved() {
+        return this.moved;
+    }
+
+    public void setHasMoved(boolean moved) {
+        this.moved = moved;
+    }
+
+
     public String toString() {
-        if (this.getPieceColors() == Checkers.PieceColor.WHITE) {
-            return "K";
-        } else
-            return "k";
+        if (this.getPieceColor() == Checkers.PieceColor.WHITE) {
+            if (this.moved) {
+                return "L";
+            } else
+                return "K";
+        }else {
+            if (this.moved) {
+                return "l";
+            } else
+                return "k";
+        }
     }
 
 
@@ -47,10 +63,10 @@ public class Kings extends Piece {
                     j >= 0 && j < Checkers.BOARD_FILES) {
                 Position current = Position.generateFromRankAndFile(i, j);
 
-                if (checkers.isEmpty(current))
+                if (current != null && checkers.isEmpty(current))
                     result = Position.appendPositionsToArray(result, current);
                 else {
-                    if (checkers.getPieceAt(current).getPieceColors() != checkers.getPieceAt(p).getPieceColors())
+                    if (current != null && checkers.getPieceAt(current).getPieceColor() != checkers.getPieceAt(p).getPieceColor())
                         result = Position.appendPositionsToArray(result, current);
                     break;
                 }
