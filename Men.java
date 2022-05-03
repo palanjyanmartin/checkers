@@ -74,7 +74,9 @@ public class Men extends Piece {
             }
 
             if (p.getRank() == 8) {
-                Kings.reachablePositions(checkers, p);
+                Kings kings = new Kings(Checkers.PieceColor.WHITE);
+                kings.allDestinations(checkers,p);
+
             }
 
 
@@ -92,7 +94,8 @@ public class Men extends Piece {
             }
 
             if (p.getRank() == 0) {
-                Kings.reachablePositions(checkers, p);
+                Kings kings = new Kings(Checkers.PieceColor.BLACK);
+                kings.allDestinations(checkers,p);
             }
 
         }
