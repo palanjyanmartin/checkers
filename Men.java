@@ -45,7 +45,7 @@ public class Men extends Piece {
      * Checkers game.
      *
      * @param checkers the ongoing <code>am.aua.Checkers.core.Checkers</code> game
-     * @param p     the position of the Men
+     * @param p        the position of the Men
      * @return a <code>am.aua.Checkers.core.Position</code> array with all the positions
      * that a Men can move into from position <code>p</code>
      */
@@ -67,8 +67,10 @@ public class Men extends Piece {
                 result = Position.appendPositionsToArray(result, current2);
             }
 
+            if (p.getRank() == 8) {
+                Kings.reachablePositions(checkers,p);
+            }
             return result;
-
 
         } else if (checkers.getTurn() == Checkers.PieceColor.BLACK) {
             Position[] result = new Position[0];
@@ -83,21 +85,13 @@ public class Men extends Piece {
             if (current2 != null && (checkers.getPieceAt(current2) != null) && (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor())) {
                 result = Position.appendPositionsToArray(result, current2);
             }
+            if (p.getRank() == 0){
+                Kings.reachablePositions(checkers,p);
+            }
 
             return result;
 
         }
         return new Position[0];
     }
-     public void becomeKing() {
-    	if(this.color==Checkers.PieceColor.WHITE) {
-    		if(this.getRank()==8) {
-    			this.board[this.getRank()][this.getPosition()]=(Kings)(Piece)this;
-    		}
-    		else if(this.color==Checkers.PieceColor.BLACK) {
-        		if(this.getRank()==0) {
-        			this.board[this.getRank()][this.getPosition()]=(Kings)(Piece)this;
-    	}
-    }
 }
-
