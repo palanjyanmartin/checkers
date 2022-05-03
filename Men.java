@@ -89,5 +89,15 @@ public class Men extends Piece {
         }
         return new Position[0];
     }
+     public void becomeKing() {
+    	if(this.color==Checkers.PieceColor.WHITE) {
+    		if(this.getRank()==8) {
+    			this.board[this.getRank()][this.getPosition()]=(Kings)(Piece)this;
+    		}
+    		else if(this.color==Checkers.PieceColor.BLACK) {
+        		if(this.getRank()==0) {
+        			this.board[this.getRank()][this.getPosition()]=(Kings)(Piece)this;
+    	}
+    }
 }
 
