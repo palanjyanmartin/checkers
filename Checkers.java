@@ -37,7 +37,7 @@ public class Checkers implements Cloneable {
      * which indicates which player is about to make a move.
      */
     public Checkers() throws IllegalArrangementException {
-       this(" M M M MM M M M M M M M m m m m m m m mm m m m ", PieceColor.WHITE);
+       " M M M MM M M M  M M M M                m m m m  m m m mm m m m "
     }
 
 
