@@ -7,7 +7,7 @@ package am.aua.checkers.core;
  * @author armankhachatryan
  * @author gorhovakimyan
  * References
- * Martin Palanjyan's Homework 07.
+ * Martin Palanjyan's Homework 08.
  */
 
 public class Position {
@@ -93,85 +93,44 @@ public class Position {
     }
 
     /**
-     * Method to generate and return a string representation of the position with a format like "C2" or "B8".
-     *
-     * @return
+     * Mutator method for the file of the position.
+     * @return A string representation of the position on the board.
      */
     public String toString() {
-        return this.position + "" + this.rank;
-
+        return "" + (char)('A' + this.position) + (Checkers.BOARD_RANKS - this.rank);
     }
 
     /**
-     * Method that generates a new Position object from a single string representation argument like "B3".
+     * <p>A static method that given a valid string indicating a chessboard square in chess notation,
+     * e.g. "a8" or "A8", creates a position object after verification. Returns null otherwise.
+     * Such methods are known as static factory methods and are advantageous in a multitude of ways.</p>
      *
-     * @param position
-     * @return
+     * @param s The name of the chessboard square, such as "A8"
+     * @return A position object or null.
      */
-    public static Position generateFromString(String position) {
-        if (position.length() == 2) {
-            char letter = position.charAt(0);
-            char number = position.charAt(1);
-            int newRank = 0;
-            int newPosition = 0;
-
-            if (number == '1') {
-                newRank = 7;
-            } else if (number == '2') {
-                newRank = 6;
-            } else if (number == '3') {
-                newRank = 5;
-            } else if (number == '4') {
-                newRank = 4;
-            } else if (number == '5') {
-                newRank = 3;
-            } else if (number == '6') {
-                newRank = 2;
-            } else if (number == '7') {
-                newRank = 1;
-            } else if (number == '8') {
-                newRank = 0;
-            } else {
-                return null;
-            }
-
-            if (letter == 'A' || letter == 'a') {
-                newPosition = 0;
-            } else if (letter == 'B' || letter == 'b') {
-                newPosition = 1;
-            } else if (letter == 'C' || letter == 'c') {
-                newPosition = 2;
-            } else if (letter == 'D' || letter == 'd') {
-                newPosition = 3;
-            } else if (letter == 'E' || letter == 'e') {
-                newPosition = 4;
-            } else if (letter == 'F' || letter == 'f') {
-                newPosition = 5;
-            } else if (letter == 'G' || letter == 'g') {
-                newPosition = 6;
-            } else if (letter == 'H' || letter == 'h') {
-                newPosition = 7;
-            } else {
-                return null;
-            }
-
-            return new Position(newRank, newPosition);
-        } else
+    public static Position generateFromString(String s) {
+        s = s.toLowerCase();
+        if (s.length() != 2
+                || (s.charAt(0) < 'a' || s.charAt(0) >= 'a' + Checkers.BOARD_FILES)
+                || (s.charAt(1) < '1' || s.charAt(1) >= '1' + Checkers.BOARD_RANKS)
+        )
             return null;
+        return generateFromRankAndFile(Checkers.BOARD_RANKS - s.charAt(1) + '0',
+                s.charAt(0) - 'a');
     }
 
     /**
      * Method that generates a new Position object from a pair of integer arguments for coordinates.
      *
      * @param rank
-     * @param position
      * @return
      */
-    public static Position generateFromRankAndFile(int rank, int position) {
-        if (rightRankPosition(rank) && rightRankPosition(position)) {
-            return new Position(rank, position);
-        } else
-            return null;
+    public static Position generateFromRankAndFile(int rank, int file) {
+        Position result = null;
+        if (rank >= 0 && rank < Checkers.BOARD_RANKS
+                && file >= 0 && file < Checkers.BOARD_FILES)
+            result = new Position(rank, file);
+        return result;
     }
 
     /**
@@ -212,4 +171,5 @@ public class Position {
 
 
 }
+
 
