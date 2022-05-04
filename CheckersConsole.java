@@ -1,3 +1,6 @@
+import java.util.Scanner;
+import am.aua.chess.core.*;
+package am.aua.chess.ui;
 /**
  * A class that provides a command line interface for the class
  * <code>am.aua.Checkers.core.Checkers</code>.
