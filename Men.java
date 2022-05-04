@@ -101,5 +101,110 @@ public class Men extends Piece {
         }
         return result;
     }
+    
+    
+    
+    Position[] result = new Position[0];
+    
+    public Position[] destination1(Chess chess, Position p) {
+    	
+    	if (chess.getPieceAt(new Position((p.getRank() + 1), p.getFile() + 1)) == chess.getPieceAt(p)
+        		|| chess.isEmpty(new Position((p.getRank() + 2), p.getFile() + 2)) == false
+        		|| p.getRank() + 2 > 7 || p.getFile() + 2 > 7)
+    		 result = Position.appendPositionsToArray(result, new Position(p.getRank() + 2, p.getFile() + 2));
+    	
+    	destination1(chess, new Position(p.getRank() + 2, p.getFile() + 2));
+    	
+    	
+    	return result;
+		
+    }
+    
+
+    public Position[] destination2(Chess chess, Position p) {
+    	
+    	if (chess.getPieceAt(new Position((p.getRank() + 1), p.getFile() - 1)) == chess.getPieceAt(p)
+        		|| chess.isEmpty(new Position((p.getRank() + 2), p.getFile() - 2)) == false
+        		|| p.getRank() + 2 > 7 || p.getFile() - 2 < 0)
+    		 result = Position.appendPositionsToArray(result, new Position(p.getRank() + 2, p.getFile() - 2));
+    	
+    	destination2(chess, new Position(p.getRank() + 2, p.getFile() - 2));
+		return result;
+    }
+    
+    
+
+    public Position[] destination3(Chess chess, Position p) {
+	
+	
+    	if (chess.getPieceAt(new Position((p.getRank() - 1), p.getFile() - 1)) == chess.getPieceAt(p)
+    		|| chess.isEmpty(new Position((p.getRank() - 2), p.getFile() - 2)) == false
+    		|| p.getRank() - 2 < 0 || p.getFile() - 2 < 0)
+		 result = Position.appendPositionsToArray(result, new Position(p.getRank() - 2, p.getFile() - 2));
+	
+	
+    	destination3(chess, new Position(p.getRank() - 2, p.getFile() - 2));
+    	return result;
+    	
+	
+    }  
+
+
+    public Position[] destination4(Chess chess, Position p) {
+	
+    	if (chess.getPieceAt(new Position((p.getRank() - 1), p.getFile() + 1)) == chess.getPieceAt(p)
+    		|| chess.isEmpty(new Position((p.getRank() - 2), p.getFile() + 2)) == false
+    		|| p.getRank() - 2 < 0 || p.getFile() + 2 > 7)
+    		result = Position.appendPositionsToArray(result, new Position(p.getRank() - 2, p.getFile() + 2));
+	
+    	destination4(chess, new Position(p.getRank() - 2, p.getFile() + 2));
+    	return result;
+	
+    }
+    
+    
+    
+    
+    
+    public Position[] allDestinations(Chess chess, Position p) {
+        Position[] resultForWhite = new Position[0];
+        Position[] resultForBlack = new Position[0];
+        
+        
+        if (chess.isEmpty(new Position((p.getRank() + 1), p.getFile() + 1)) == true && p.getRank() + 1 <= 7 && p.getFile() + 1 <= 7)
+			resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 1, p.getFile() + 1));
+        if (chess.isEmpty(new Position((p.getRank() + 1), p.getFile() - 1)) == true && p.getRank() + 1 < 8 && p.getFile() - 1 >= 0)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 1, p.getFile() - 1));
+    
+	 
+        if (chess.isEmpty(new Position((p.getRank() - 1), p.getFile() - 1)) == true && p.getRank() - 1 >= 0 && p.getFile() - 1 >= 0)
+			resultForBlack = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 1, p.getFile() - 1) );
+        if (chess.isEmpty(new Position((p.getRank() - 1), p.getFile() + 1)) == true && p.getRank() - 1 >= 0 && p.getFile() + 1 <= 7)
+        	resultForBlack = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 1, p.getFile() + 1));
+        
+        
+        resultForWhite = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() + 2, p.getFile() + 2));
+        resultForWhite = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() - 2, p.getFile() - 2));
+        resultForWhite = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() + 2, p.getFile() - 2));
+        resultForWhite = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() - 2, p.getFile() + 2));
+        
+        
+        resultForBlack = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() + 2, p.getFile() + 2));
+        resultForBlack = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() - 2, p.getFile() - 2));
+        resultForBlack = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() + 2, p.getFile() - 2));
+        resultForBlack = Position.appendPositionsToArray(destination1(chess, p), new Position(p.getRank() - 2, p.getFile() + 2));
+	 
+	 
+        if (chess.getPieceAt(p).getPieceColor() == (Chess.PieceColor.WHITE))
+        	return resultForWhite;
+        else if (chess.getPieceAt(p).getPieceColor() == (Chess.PieceColor.BLACK))
+        	return resultForBlack;
+        else 
+        	return null;
+    
+    
+    }
+    
+
 
 }
