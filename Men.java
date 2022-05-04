@@ -89,4 +89,74 @@ public class Men extends Piece {
         }
         return new Position[0];
     }
+    
+    public Position[] allDestinations(Checkers checkers, Position p) {
+        Position[] resultForWhite = new Position[0];
+        Position[] resultForBlack = new Position[0];
+        
+        
+        if (checkers.isEmpty(new Position((p.getRank() + 1), p.getFile() + 1)) == true && p.getRank() + 1 <= 7 && p.getFile() + 1 <= 7)
+			resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 1, p.getFile() + 1));
+        if (checkers.isEmpty(new Position((p.getRank() + 1), p.getFile() - 1)) == true && p.getRank() + 1 < 8 && p.getFile() - 1 >= 0)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 1, p.getFile() - 1));
+    
+	 
+        if (checkers.isEmpty(new Position((p.getRank() - 1), p.getFile() - 1)) == true && p.getRank() - 1 >= 0 && p.getFile() - 1 >= 0)
+			resultForBlack = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 1, p.getFile() - 1) );
+        if (checkers.isEmpty(new Position((p.getRank() - 1), p.getFile() + 1)) == true && p.getRank() - 1 >= 0 && p.getFile() + 1 <= 7)
+        	resultForBlack = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 1, p.getFile() + 1));
+	 
+	 
+        while (checkers.getPieceAt(new Position((p.getRank() + 1), p.getFile() + 1)).getPieceColor() == (checkers.PieceColor.BLACK) 
+        		&& checkers.isEmpty(new Position((p.getRank() + 2), p.getFile() + 2)) == true
+        		&& p.getRank() + 2 <= 7 && p.getFile() + 2 <= 7)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 2, p.getFile() + 2));
+	 
+        while (checkers.getPieceAt(new Position((p.getRank() + 1), p.getFile() - 1)).getPieceColor() == (checkers.PieceColor.BLACK) 
+        		&& checkers.isEmpty(new Position((p.getRank() + 2), p.getFile() - 2)) == true
+        		&& p.getRank() + 2 <= 7 && p.getFile() - 2 >= 0)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 2, p.getFile() - 2));
+        
+        while (checkers.getPieceAt(new Position((p.getRank() - 1), p.getFile() + 1)).getPieceColor() == (checkers.PieceColor.BLACK) 
+        		&& checkers.isEmpty(new Position((p.getRank() - 2), p.getFile() + 2)) == true
+        		&& p.getRank() - 2 >= 0 && p.getFile() + 2 <= 7)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 2, p.getFile() + 2));
+        
+        while (checkers.getPieceAt(new Position((p.getRank() - 1), p.getFile() - 1)).getPieceColor() == (checkers.PieceColor.BLACK) 
+        		&& checkers.isEmpty(new Position((p.getRank() - 2), p.getFile() - 2)) == true
+        		&& p.getRank() - 2 >= 0 && p.getFile() - 2 >= 0)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 2, p.getFile() - 2));
+        
+        
+        
+        while (checkers.getPieceAt(new Position((p.getRank() + 1), p.getFile() + 1)).getPieceColor() == (checkers.PieceColor.WHITE) 
+        		&& checkers.isEmpty(new Position((p.getRank() + 2), p.getFile() + 2)) == true
+        		&& p.getRank() + 2 <= 7 && p.getFile() + 2 <= 7)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 2, p.getFile() + 2));
+	 
+        while (checkers.getPieceAt(new Position((p.getRank() + 1), p.getFile() - 1)).getPieceColor() == (checkers.PieceColor.WHITE) 
+        		&& checkers.isEmpty(new Position((p.getRank() + 2), p.getFile() - 2)) == true
+        		&& p.getRank() + 2 <= 7 && p.getFile() - 2 >= 0)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() + 2, p.getFile() - 2));
+        
+        while (checkers.getPieceAt(new Position((p.getRank() - 1), p.getFile() + 1)).getPieceColor() == (checkers.PieceColor.WHITE) 
+        		&& checkers.isEmpty(new Position((p.getRank() - 2), p.getFile() + 2)) == true
+        		&& p.getRank() - 2 >= 0 && p.getFile() + 2 <= 7)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 2, p.getFile() + 2));
+        
+        while (checkers.getPieceAt(new Position((p.getRank() - 1), p.getFile() - 1)).getPieceColor() == (checkers.PieceColor.WHITE) 
+        		&& checkers.isEmpty(new Position((p.getRank() - 2), p.getFile() - 2)) == true
+        		&& p.getRank() - 2 >= 0 && p.getFile() - 2 >= 0)
+        	resultForWhite = Position.appendPositionsToArray(resultForWhite, new Position(p.getRank() - 2, p.getFile() - 2));
+	 
+	 
+        if (checkers.getPieceAt(p).getPieceColor() == (checkers.PieceColor.WHITE))
+        	return resultForWhite;
+        else if (checkers.getPieceAt(p).getPieceColor() == (checkers.PieceColor.BLACK))
+        	return resultForBlack;
+        else 
+        	return null;
+    
+    
+    }
 }
