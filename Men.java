@@ -8,6 +8,9 @@ package am.aua.checkers.core;
  */
 
 public class Men extends Piece {
+    public static final int number = 4;
+    public static int another = 0;
+
     /**
      * A no-arg constructor that relies on the constructor of the parent class Piece, which by default makes the piece color WHITE.
      */
@@ -59,47 +62,42 @@ public class Men extends Piece {
         Position[] result = new Position[0];
         Position current;
         Position current2;
+
         if (myColor == Checkers.PieceColor.WHITE) {
-            //System.out.println("1");
-            current = Position.generateFromRankAndFile(p.getRank() - rankOfWhites[0], p.getPosition() + fileOfWhites[0]);
-            //System.out.println("2");
-            current2 = Position.generateFromRankAndFile(p.getRank() - rankOfWhites[1], p.getPosition() + fileOfWhites[1]);
+            current = Position.generateFromRankAndFile(p.getRank() + rankOfWhites[0], p.getPosition() + fileOfWhites[0]);
+            current2 = Position.generateFromRankAndFile(p.getRank() + rankOfWhites[1], p.getPosition() + fileOfWhites[1]);
 
             if ((current != null) && ((checkers.isEmpty(current)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current).getPieceColor()))) {
                 result = Position.appendPositionsToArray(result, current);
+
+                if ((current2 != null) && ((checkers.isEmpty(current2)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor()))) {
+                    result = Position.appendPositionsToArray(result, current2);
+
+                    if (p.getRank() == 0) {
+                        Kings kings = new Kings(Checkers.PieceColor.WHITE);
+                        kings.allDestinations(checkers, p);
+                    }
+
+                    return result;
+                }
             }
-
-            if ((current2 != null) && ((checkers.isEmpty(current2)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor()))) {
-                result = Position.appendPositionsToArray(result, current2);
-            }
-
-            if (p.getRank() == 8) {
-                Kings kings = new Kings(Checkers.PieceColor.WHITE);
-                kings.allDestinations(checkers,p);
-
-            }
-
-
         } else {
-            current = Position.generateFromRankAndFile(p.getRank() - rankOfBlacks[0], p.getPosition() - fileOfBlacks[0]);
-            current2 = Position.generateFromRankAndFile(p.getRank() - rankOfBlacks[1], p.getPosition() - fileOfBlacks[1]);
-
+            current = Position.generateFromRankAndFile(p.getRank() + rankOfBlacks[0], p.getPosition() - fileOfBlacks[0]);
+            current2 = Position.generateFromRankAndFile(p.getRank() + rankOfBlacks[1], p.getPosition() - fileOfBlacks[1]);
 
             if ((current != null) && ((checkers.isEmpty(current)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current).getPieceColor()))) {
                 result = Position.appendPositionsToArray(result, current);
             }
-
             if ((current2 != null) && ((checkers.isEmpty(current2)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor()))) {
                 result = Position.appendPositionsToArray(result, current2);
             }
-
-            if (p.getRank() == 0) {
+            if (p.getRank() == 8) {
                 Kings kings = new Kings(Checkers.PieceColor.BLACK);
-                kings.allDestinations(checkers,p);
+                kings.allDestinations(checkers, p);
             }
-
+            return result;
         }
         return result;
     }
-
 }
+
