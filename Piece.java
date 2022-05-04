@@ -5,25 +5,25 @@ package am.aua.checkers.core;
  */
 
 public abstract class Piece implements Cloneable {
-    private Chess.PieceColor color;
+    private Checkers.PieceColor color;
 
-    public Piece(Chess.PieceColor color) {
+    public Piece(Checkers.PieceColor color) {
         this.color = color;
     }
 
     public Piece() {
-        this(Chess.PieceColor.WHITE);
+        this(Checkers.PieceColor.WHITE);
     }
 
     /**
      * An abstract method
      *
-     * @param chess
+     * @param Checkers
      * @param p
      * @return
      */
 
-    public abstract Position[] allDestinations(Chess chess, Position p);
+    public abstract Position[] allDestinations(Checkers Checkers, Position p);
 
     /**
      * An accessor for the color that cannot be overriden.
@@ -31,7 +31,7 @@ public abstract class Piece implements Cloneable {
      * @return
      */
 
-    public final Chess.PieceColor getPieceColor() {
+    public final Checkers.PieceColor getPieceColor() {
         return this.color;
     }
 
