@@ -1,5 +1,7 @@
 package am.aua.checkers.core;
 
+import java.util.ArrayList;
+
 /**
  * The <code>am.aua.Checkers.core.Men</code> class contains the behaviour of Men pieces.
  *
@@ -8,9 +10,6 @@ package am.aua.checkers.core;
  */
 
 public class Men extends Piece {
-    public static final int number = 4;
-    public static int another = 0;
-
     /**
      * A no-arg constructor that relies on the constructor of the parent class Piece, which by default makes the piece color WHITE.
      */
@@ -53,52 +52,107 @@ public class Men extends Piece {
      * @return a <code>am.aua.Checkers.core.Position</code> array with all the positions
      * that a Men can move into from position <code>p</code>
      */
-    public Position[] allDestinations(Checkers checkers, Position p) {
+    public ArrayList<Position> allDestinations(Checkers checkers, Position p) {
         Checkers.PieceColor myColor = checkers.getPieceAt(p).getPieceColor();
-        int[] rankOfWhites = {-1, -1};
-        int[] fileOfWhites = {1, -1};
-        int[] rankOfBlacks = {1, 1};
-        int[] fileOfBlacks = {1, -1};
-        Position[] result = new Position[0];
+        int[] rankOfWhites = {-1, -1, 1, 1};
+        int[] fileOfWhites = {1, -1, 1, -1};
+        int[] rankOfBlacks = {1, 1, -1, -1};
+        int[] fileOfBlacks = {1, -1, 1, -1};
+        ArrayList<Position> result = new ArrayList<>();
         Position current;
+        Position currentEat;
         Position current2;
-
+        Position current2Eat;
+        int counter = 0;
         if (myColor == Checkers.PieceColor.WHITE) {
-            current = Position.generateFromRankAndFile(p.getRank() + rankOfWhites[0], p.getPosition() + fileOfWhites[0]);
-            current2 = Position.generateFromRankAndFile(p.getRank() + rankOfWhites[1], p.getPosition() + fileOfWhites[1]);
+            //System.out.println("1");
+            current = Position.generateFromRankAndFile(p.getRank() - rankOfWhites[0], p.getPosition() + fileOfWhites[0]);
+            //System.out.println("2");
+            current2 = Position.generateFromRankAndFile(p.getRank() - rankOfWhites[1], p.getPosition() + fileOfWhites[1]);
+            currentEat = Position.generateFromRankAndFile(current.getRank() - rankOfWhites[0], current.getPosition() + fileOfWhites[0]);
+            current2Eat = Position.generateFromRankAndFile(current2.getRank() - rankOfWhites[0], current2.getPosition() + fileOfWhites[0]);
 
-            if ((current != null) && ((checkers.isEmpty(current)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current).getPieceColor()))) {
-                result = Position.appendPositionsToArray(result, current);
-
-                if ((current2 != null) && ((checkers.isEmpty(current2)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor()))) {
-                    result = Position.appendPositionsToArray(result, current2);
-
-                    if (p.getRank() == 0) {
-                        Kings kings = new Kings(Checkers.PieceColor.WHITE);
-                        kings.allDestinations(checkers, p);
+            if (checkers.isEmpty(current) || myColor != checkers.getPieceAt(current).getPieceColor()) {
+                result.add(current);
+            }
+            if (checkers.getPieceAt(current).getPieceColor() == Checkers.PieceColor.BLACK && checkers.isEmpty(currentEat)) {
+                result.add(currentEat);
+                counter++;
+            }
+            if (checkers.isEmpty(current2) || myColor != checkers.getPieceAt(current2).getPieceColor()) {
+                result.add(current2);
+            }
+            if (counter > 0) {
+                for (int i = 0; i < 4; i++) {
+                    current2 = Position.generateFromRankAndFile(current2.getRank() - rankOfWhites[i], current2.getPosition() + fileOfWhites[i]);
+                    current2Eat = Position.generateFromRankAndFile(current2.getRank() - rankOfWhites[i], current2.getPosition() + fileOfWhites[i]);
+                    if (checkers.getPieceAt(current2).getPieceColor() == Checkers.PieceColor.BLACK && checkers.isEmpty(current2Eat)) {
+                        result.add(current2Eat);
                     }
-
-                    return result;
                 }
             }
-        } else {
-            current = Position.generateFromRankAndFile(p.getRank() + rankOfBlacks[0], p.getPosition() - fileOfBlacks[0]);
-            current2 = Position.generateFromRankAndFile(p.getRank() + rankOfBlacks[1], p.getPosition() - fileOfBlacks[1]);
-
-            if ((current != null) && ((checkers.isEmpty(current)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current).getPieceColor()))) {
-                result = Position.appendPositionsToArray(result, current);
-            }
-            if ((current2 != null) && ((checkers.isEmpty(current2)) || (checkers.getPieceAt(p).getPieceColor() != checkers.getPieceAt(current2).getPieceColor()))) {
-                result = Position.appendPositionsToArray(result, current2);
+            if (checkers.getPieceAt(current2).getPieceColor() == Checkers.PieceColor.BLACK && checkers.isEmpty(current2Eat)) {
+                result.add(current2Eat);
+                counter++;
             }
             if (p.getRank() == 8) {
+                Kings kings = new Kings(Checkers.PieceColor.WHITE);
+                kings.allDestinations(checkers, p);
+            }
+
+
+        }
+        // move of black pieces
+        else {
+            current = Position.generateFromRankAndFile(p.getRank() - rankOfBlacks[0], p.getPosition() - fileOfBlacks[0]);
+            current2 = Position.generateFromRankAndFile(p.getRank() - rankOfBlacks[1], p.getPosition() - fileOfBlacks[1]);
+            currentEat = Position.generateFromRankAndFile(current.getRank() - rankOfWhites[0], current.getPosition() + fileOfWhites[0]);
+            current2Eat = Position.generateFromRankAndFile(current2.getRank() - rankOfWhites[1], current2.getPosition() + fileOfWhites[1]);
+
+
+            if (checkers.isEmpty(current) || myColor != checkers.getPieceAt(current).getPieceColor()) {
+                result.add(current);
+            } else if (checkers.getPieceAt(current).getPieceColor() == Checkers.PieceColor.WHITE && checkers.isEmpty(currentEat)) {
+                result.add(currentEat);
+                counter++;
+            }
+            if (checkers.isEmpty(current2) || myColor != checkers.getPieceAt(current2).getPieceColor()) {
+                result.add(current2);
+            } else if (counter > 0) {
+                for (int i = 0; i < 4; i++) {
+                    current2 = Position.generateFromRankAndFile(current.getRank() - rankOfWhites[i], current.getPosition() + fileOfWhites[i]);
+                    current2Eat = Position.generateFromRankAndFile(current.getRank() - rankOfWhites[i], current.getPosition() + fileOfWhites[i]);
+                    if ((current2 != null && checkers.getPieceAt(current).getPieceColor() == Checkers.PieceColor.WHITE) && checkers.isEmpty(current2Eat)) {
+                        result.add(current2Eat);
+                    }
+                }
+            } else if (checkers.getPieceAt(current2).getPieceColor() == Checkers.PieceColor.WHITE && checkers.isEmpty(current2Eat)) {
+                result.add(current2Eat);
+                counter++;
+            }
+            if (p.getRank() == 0) {
                 Kings kings = new Kings(Checkers.PieceColor.BLACK);
                 kings.allDestinations(checkers, p);
             }
-            return result;
+
         }
         return result;
     }
+//    public int eatablePositions(Checkers checkers, Position p ){
+//    	int[] rank= {1,1,-1,-1};
+//    	int[] position= {1,-1,1,-1};
+//    	int c=0;
+//    	Position current2;
+//    	Position current2Eat;
+//    	for(int i=0; i<4; i++) {
+//    		current2 = Position.generateFromRankAndFile(current2.getRank() - rank[i], current2.getPosition() + position[i]);
+//    		current2Eat = Position.generateFromRankAndFile(current2.getRank() - rank[i], current2.getPosition() + position[i]);
+//    		if((current2 !=null && checkers.getPieceAt(current2).getPieceColor() == Checkers.PieceColor.BLACK) && checkers.isEmpty(current2Eat)){
+//
+//    		}
+//    	}
+//    }
+}
   
 // 
 //<<<<<<< Mendestinationbyrecursia
