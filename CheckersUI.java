@@ -29,16 +29,8 @@ public class CheckersUI extends JFrame implements ActionListener {
         setSize(Width, Height);
         getContentPane().setBackground(Color.WHITE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());//
-        titlePanel.setLayout(new BorderLayout());
-        titlePanel.setBounds(0, 0, 100, 300);
-        textField.setBackground(Color.BLACK);
-        textField.setForeground(Color.ORANGE);
-        textField.setFont(new Font("Serif", Font.BOLD, 50));
-        textField.setHorizontalAlignment(JLabel.CENTER);
-        textField.setText("Checkers");
+        setLayout(new FlowLayout());
         buttonPanel.setLayout(new GridLayout(Checkers.BOARD_RANKS, Checkers.BOARD_FILES));
-        //buttonPanel.setBackground(Color.BLACK);
         for (int i = 0; i < Checkers.BOARD_RANKS; i++) {
             for (int j = 0; j < Checkers.BOARD_FILES; j++) {
                 if ((i + j) % 2 == 0) {
@@ -46,7 +38,7 @@ public class CheckersUI extends JFrame implements ActionListener {
                 } else {
                     buttons[i][j] = new BoardSquare(false, i, j);
                 }
-                buttons[i][j].setPreferredSize(new Dimension(100, 100));
+                buttons[i][j].setPreferredSize(new Dimension(95, 95));
                 buttonPanel.add(buttons[i][j]);
                 this.game = new Checkers();
                 if (game.getBoard()[i][j] != null) {
@@ -62,9 +54,7 @@ public class CheckersUI extends JFrame implements ActionListener {
             }
         }
 
-        titlePanel.add(textField);
         buttonPanel.setVisible(true);
-        add(titlePanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
     }
 
@@ -99,8 +89,8 @@ public class CheckersUI extends JFrame implements ActionListener {
             }
             ArrayList<Position> list = game.reachableFrom(new Position(coordinates[0], coordinates[1]));
             if (list != null) {
-                for (int k = 0; k < list.size(); k++) {
-                    this.destination = list.get(k);
+                for (Position value : list) {
+                    this.destination = value;
                     if (!game.performMove(new Move(this.position, this.destination))) {
                         System.out.println("Invalid position. Please try again.");
 
