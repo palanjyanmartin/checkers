@@ -1,77 +1,99 @@
-package am.aua.checkers.ui;
-import java.awt.Color;
-
+package am.aua.chess.ui;
 import javax.swing.*;
-
-import am.aua.checkers.core.*;
-/**
- * 
- * @author Arman Khachatryan
- * @referance Arman Khachatryan's HW 10
- */
+import java.awt.*;
 
 public class BoardSquare extends JButton {
-	/**
-	 * 
-	 */
-	public static final Color dark = Color.black;
-	public static final Color light= Color.white;
-	int x;
-	int y;
-	Color c;
-	BoardSquare(boolean f, int x, int y){
-		this.x=x;
-		this.y=y;
-		if(f) {
-			this.c=light;
-		}
-		else {
-			this.c=dark;
-		}
-	}
-	public int[] getCordinatesBoard(){
-		int[] a= new int[2];
-		a[0]=this.x;
-		a[1]=this.y;
-		return a;
-	}
-	public void setPiece(String a) {
-		JButton button=null;
-		try{switch (a.charAt(0)) {
-        case 'M':
-            ImageIcon ManW=new ImageIcon("ManW.png");
-            button=new JButton(ManW);
-            break;
-        case 'K':
-        	ImageIcon KingW=new ImageIcon("KingW.png");
-            button=new JButton(KingW);
-            break;
-        case 'm':
-            ImageIcon ManB=new ImageIcon("ManB.png");
-            button=new JButton(ManB);
-            break;
-        case 'k':
-        	ImageIcon KingB=new ImageIcon("KingB.png");
-            button=new JButton(KingB);
-            break;
-        default:
-        	throw new IllegalArrangementException();
+    public static final Color light = Color.WHITE;
+    public static final Color dark = Color.GRAY;
+    private int xCord;
+    private int yCord;
+    private Color color;
+
+    public BoardSquare(boolean color, int xCord, int yCord) {
+        super();
+        if (color) {
+            this.color = light;
+            setBackground(Color.WHITE);
+        } else {
+            this.color = dark;
+            setBackground(Color.GRAY);
+        }
+        this.xCord = xCord;
+        this.yCord = yCord;
+
     }
-	}catch(IllegalArrangementException e){
-        	System.out.println("illegal character");
-	}
-	}
-	public void setPiece() {
-		ImageIcon def=new ImageIcon();
-        JButton button=new JButton(def);
-	}
-	public void setHighlight(boolean f) {
-		if(!f) {
-			this.setBackground(Color.red);
-		}
-		else {
-			this.setBackground(this.c);
-		}
-	}
-	
+
+    public int[] getCoordinate() {
+        int[] newArray = new int[2];
+        newArray[0] = this.xCord;
+        newArray[1] = this.yCord;
+        return newArray;
+    }
+
+
+    public void setPiece(String letter) {
+        if (letter.equals("R")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/RookW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("r")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/RookB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("Q")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/QueenW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("q")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/QueenB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("P")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/PawnW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("p")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/PawnB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("N")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/KnightW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("n")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/KnightB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("B")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/BishopW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("b")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/BishopB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("S")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/RookW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("s")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/RookB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("K")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/KingW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("k")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/KingB.png");
+            this.setIcon(icon);
+        } else if (letter.equals("L")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/KingW.png");
+            this.setIcon(icon);
+        } else if (letter.equals("l")) {
+            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/gfx/KingB.png");
+            this.setIcon(icon);
+        } else if (letter.equals(" ")) {
+            this.setPiece();
+        } else
+            System.out.println();
+    }
+
+    public void setPiece() {
+        this.setIcon(null);
+    }
+
+    public void setHighlight(boolean highlighted) {
+        if (highlighted) {
+            this.setBackground(Color.RED);
+        } else
+                this.setBackground(color);
+    }
 }
