@@ -1,6 +1,10 @@
+package am.aua.checkers.cli;
+
+import am.aua.checkers.core.*;
+
+import java.util.ArrayList;
 import java.util.Scanner;
-import am.aua.chess.core.*;
-package am.aua.chess.ui;
+
 /**
  * A class that provides a command line interface for the class
  * <code>am.aua.Checkers.core.Checkers</code>.
@@ -18,11 +22,10 @@ public class CheckersConsole {
      * Initializes the game and contains the core loop of the game.
      * Ensures the correct turn-taking of the game.
      */
-    public void play() {
+    public void play() throws IllegalArrangementException {
         Scanner sc = new Scanner(System.in);
         String inputLine;
         game = new Checkers();
-
         print();
 
         while (!game.isGameOver()) {
@@ -32,16 +35,52 @@ public class CheckersConsole {
                 System.out.println("Black's move: ");
             inputLine = sc.nextLine();
             String[] input = inputLine.split(" ");
-            Position position = Position.generateFromString(input[0]);
-            if (position != null && (game.getPieceAt(position).getPieceColors() == game.getTurn())) {
-                if (input.length == 1)
-                    print(Position.generateFromString(input[0]));
+            Position p1 = null, p2 = null;
+
+            if (input.length >= 1) {
+                if (input[0].equals("resign")) {
+                    System.out.println(game.getTurn() + " has resigned.");
+                    return;
+                }
+
+                if (input[0].equals("debug")) {
+                    print();
+                    continue;
+                }
+
+                p1 = Position.generateFromString(input[0]);
+
+                if (p1 == null || game.getPieceAt(p1) == null) {
+                    System.out.println("Invalid position. Please try again.");
+                    continue;
+                }
+
+                if (input.length == 1) {
+                    // Players are informed about wrong turns, but the squares for
+                    // the opponent's piece are still highlighted
+                    if (game.getPieceAt(p1).getPieceColor() != game.getTurn())
+                        System.out.println("That piece belongs to the opponent.");
+                    print(p1);
+                }
                 else if (input.length == 2) {
-                    Move m = new Move(Position.generateFromString(input[0]),
-                            Position.generateFromString(input[1]));
-                    boolean success = game.performMove(m);
+                    if (game.getPieceAt(p1).getPieceColor() != game.getTurn()) {
+                        System.out.println("That piece belongs to the opponent.");
+                        continue;
+                    }
+
+                    boolean success = false;
+
+                    p2 = Position.generateFromString(input[1]);
+
+                    // checking if p1 != null is not necessary
+                    // its negation is already checked on line 59
+                    if (p2 != null) {
+                        Move m = new Move(p1, p2);
+                        success = game.performMove(m);
+                    }
                     if (!success)
                         System.out.println("Invalid move. Please try again.");
+
                     print();
                 }
             } else
@@ -56,7 +95,7 @@ public class CheckersConsole {
      * @param origin the position of the selected piece
      */
     public void print(Position origin) {
-        Position[] reachableSquares = game.reachableFrom(origin);
+        ArrayList<Position> reachableSquares = game.reachableFrom(origin);
 
         for (int i = 0; i < Checkers.BOARD_RANKS; i++) {
             System.out.print((Checkers.BOARD_RANKS - i) + " ");
@@ -65,13 +104,13 @@ public class CheckersConsole {
                 boolean isHighlighted = false;
 
                 if (origin != null &&
-                        origin.getRank() == i && origin.getFile() == j)
+                        origin.getRank() == i && origin.getPosition() == j)
                     isHighlighted = true;
 
                 for (int k = 0; reachableSquares != null &&
-                        k < reachableSquares.length; k++)
-                    if (reachableSquares[k].getRank() == i &&
-                            reachableSquares[k].getFile() == j) {
+                        k < reachableSquares.size(); k++)
+                    if (reachableSquares.get(k).getRank() == i &&
+                            reachableSquares.get(k).getPosition() == j) {
                         isHighlighted = true;
                         break;
                     }
@@ -105,4 +144,3 @@ public class CheckersConsole {
         print(null);
     }
 }
-
