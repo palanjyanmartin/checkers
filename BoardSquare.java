@@ -1,4 +1,4 @@
-package am.aua.chess.ui;
+package am.aua.checkers.ui;
 import javax.swing.*;
 import java.awt.*;
 
