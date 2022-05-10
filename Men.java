@@ -56,16 +56,26 @@ public class Men extends Piece {
      * @return a <code>am.aua.Checkers.core.Position</code> array with all the positions
      * that a Men can move into from position <code>p</code>
      */
+
     public ArrayList<Position> allDestinations(Checkers checkers, Position p) {
         ArrayList<Position> result = new ArrayList<>();
         Checkers.PieceColor myColor = checkers.getPieceAt(p).getPieceColor();
 
         Position left = null;
         Position right = null;
+        Position leftEat = null;
+        Position rightEat = null;
+
 
         if (myColor == Checkers.PieceColor.WHITE) {
             left = Position.generateFromRankAndFile(p.getRank() - 1, p.getPosition() - 1);
             right = Position.generateFromRankAndFile(p.getRank() - 1, p.getPosition() + 1);
+            if (left != null) {
+                leftEat = Position.generateFromRankAndFile(left.getRank() - 1, left.getPosition() - 1);
+            }
+            if (right != null) {
+                rightEat = Position.generateFromRankAndFile(right.getRank() - 1, right.getPosition() + 1);
+            }
         } else {
             left = Position.generateFromRankAndFile(p.getRank() + 1, p.getPosition() - 1);
             right = Position.generateFromRankAndFile(p.getRank() + 1, p.getPosition() + 1);
@@ -76,12 +86,65 @@ public class Men extends Piece {
         if (right != null && right.getRank() >= 0 && right.getRank() <= 7 && right.getPosition() >= 0 && right.getPosition() <= 7 && checkers.isEmpty(right)) {
             result.add(right);
         }
+        if (left != null) {
+            if (leftEat != null && checkers.isEmpty(leftEat) && checkers.getPieceAt(left) != null) {
+                if (leftEat.getRank() >= 0 && leftEat.getRank() <= 7 && leftEat.getPosition() >= 0 && leftEat.getPosition() <= 7 && checkers.getPieceAt(left).getPieceColor() != checkers.getPieceAt(p).getPieceColor()) {
+                    result.add(leftEat);
+                }
+            }
+        }
+        if (checkers.getPieceAt(p) != null && checkers.getPieceAt(right) != null) {
+            if (rightEat != null && checkers.isEmpty(rightEat) && rightEat.getRank() >= 0 && rightEat.getRank() <= 7 && rightEat.getPosition() >= 0 && rightEat.getPosition() <= 7 && checkers.getPieceAt(right).getPieceColor() != myColor) {
+                result.add(rightEat);
+            }
+            return result;
+        }
+        return result;
+    }
 
 
+    public ArrayList<Position> eatable(Checkers checkers, Position p) {
+        ArrayList<Position> result = new ArrayList<>();
+        if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() + 1), p.getPosition() + 1)) != null && checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() + 2)) != null) {
+            if (Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() + 2) != null && Position.generateFromRankAndFile((p.getRank() + 1), p.getPosition() + 1) != null) {
+                if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() + 1), p.getPosition() + 1)).getPieceColor() != checkers.getPieceAt(p).getPieceColor()
+                        && checkers.isEmpty(Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() + 2))
+                        && p.getRank() + 2 <= 7 && p.getPosition() + 2 <= 7) {
+                    result.add(Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() + 2));
+                }
+            }
+        }
+        if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() + 1), p.getPosition() - 1)) != null && checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() - 2)) != null) {
+            if (Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() - 2) != null && Position.generateFromRankAndFile((p.getRank() + 1), p.getPosition() - 1) != null) {
+                if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() + 1), p.getPosition() - 1)).getPieceColor() != checkers.getPieceAt(p).getPieceColor()
+                        && checkers.isEmpty(Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() - 2))
+                        && p.getRank() + 2 <= 7 && p.getPosition() - 2 >= 0) {
+                    result.add(Position.generateFromRankAndFile((p.getRank() + 2), p.getPosition() - 2));
+                }
+            }
+        }
+        if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() - 1), p.getPosition() + 1)) != null && checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() + 2)) != null) {
+            if (Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() + 2) != null && Position.generateFromRankAndFile((p.getRank() - 1), p.getPosition() + 1) != null) {
+                if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() - 1), p.getPosition() + 1)).getPieceColor() != checkers.getPieceAt(p).getPieceColor()
+                        && checkers.isEmpty(Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() + 2))
+                        && p.getRank() - 2 >= 0 && p.getPosition() + 2 <= 7) {
+                    result.add(Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() + 2));
+                }
+            }
+        }
+        if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() - 1), p.getPosition() - 1)) != null && checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() - 2)) != null) {
+            if (Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() - 2) != null && Position.generateFromRankAndFile((p.getRank() - 1), p.getPosition() - 1) != null) {
+                if (checkers.getPieceAt(Position.generateFromRankAndFile((p.getRank() - 1), p.getPosition() - 1)).getPieceColor() != checkers.getPieceAt(p).getPieceColor()
+                        && checkers.isEmpty(Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() - 2))
+                        && p.getRank() - 2 >= 0 && p.getPosition() - 2 >= 0) {
+                    result.add(Position.generateFromRankAndFile((p.getRank() - 2), p.getPosition() - 2));
+                }
+            }
+            return result;
+        }
         return result;
     }
 }
-
 
 //    Checkers.PieceColor myColor = checkers.getPieceAt(p).getPieceColor();
 //    int[] rankOfWhites = {-1, -1, 1, 1};
