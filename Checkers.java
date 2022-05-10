@@ -173,11 +173,19 @@ public class Checkers implements Cloneable {
      * @param origin the origin position on the board
      * @return the array with the set of reachable positions
      */
-    public ArrayList<Position> reachableFrom(Position origin) {
+     public ArrayList<Position> reachableFrom(Position origin) {
         if (origin == null || this.isEmpty(origin))
             return null;
 
         return board[origin.getRank()][origin.getPosition()].allDestinations(this,
+                origin);
+    }
+
+    public ArrayList<Position> eatableFrom(Position origin) {
+        if (origin == null || this.isEmpty(origin))
+            return null;
+
+        return board[origin.getRank()][origin.getPosition()].eatable(this,
                 origin);
     }
 
@@ -191,7 +199,7 @@ public class Checkers implements Cloneable {
      * @param m the move attempted
      * @return true if and only if the move was successfully made
      */
-    public boolean performMove (Move m){
+    public boolean performMove(Move m) {
         Position origin = m.getOrigin();
         Position destination = m.getDestination();
         ArrayList<Position> reachable = this.reachableFrom(origin);
@@ -202,12 +210,50 @@ public class Checkers implements Cloneable {
                     this.board[destination.getRank()][destination.getPosition()] =
                             this.board[origin.getRank()][origin.getPosition()];
                     this.board[origin.getRank()][origin.getPosition()] = null;
+
                     if (this.board[destination.getRank()][destination.getPosition()].getPieceColor() == PieceColor.WHITE) {
-                        color = PieceColor.BLACK;
-                        return true;
+                        if (destination.getRank() - origin.getRank() == 1 || eatableFrom(destination).size() == 0) {
+                            color = PieceColor.BLACK;
+                            int rankNew = (origin.getRank() + destination.getRank())/2;
+                            int positionNew = (origin.getPosition()+ destination.getPosition())/2;
+                            this.board[rankNew][positionNew] = null;
+                            return true;
+                        } else if (destination.getRank() - origin.getRank() != 1 && eatableFrom(destination).size() != 0) {
+                            for (Position position1 : eatableFrom(destination)) {
+                                if (destination.getRank() == position1.getRank()
+                                        && destination.getPosition() == position1.getPosition()) {
+                                    this.board[destination.getRank()][destination.getPosition()] =
+                                            this.board[origin.getRank()][origin.getPosition()];
+                                    this.board[origin.getRank()][origin.getPosition()] = null;
+//                                    int rankNew = (origin.getRank()+destination.getRank())/2;
+//                                    int positionNew = (origin.getPosition()+ destination.getPosition())/2;
+//                                    this.board[rankNew][positionNew] = null;
+                                    return true;
+                                }
+                            }
+                        }
+
                     } else if (this.board[destination.getRank()][destination.getPosition()].getPieceColor() == PieceColor.BLACK) {
-                        color = PieceColor.WHITE;
-                        return true;
+                        if (destination.getRank() - origin.getRank() == 1 || eatableFrom(destination).size() == 0) {
+                            color = PieceColor.WHITE;
+                            int rankNew = (origin.getRank()+destination.getRank())/2;
+                            int positionNew = (origin.getPosition()+ destination.getPosition())/2;
+                            this.board[rankNew][positionNew] = null;
+                            return true;
+                        }
+                    } else if (destination.getRank() - origin.getRank() != 1 && eatableFrom(destination).size() != 0) {
+                        for (Position position1 : eatableFrom(destination)) {
+                            if (destination.getRank() == position1.getRank()
+                                    && destination.getPosition() == position1.getPosition()) {
+                                this.board[destination.getRank()][destination.getPosition()] =
+                                        this.board[origin.getRank()][origin.getPosition()];
+                                this.board[origin.getRank()][origin.getPosition()] = null;
+                                int rankNew = (origin.getRank()+destination.getRank())/2;
+                                int positionNew = (origin.getPosition()+ destination.getPosition())/2;
+                                this.board[rankNew][positionNew] = null;
+                                return true;
+                            }
+                        }
                     }
                     return false;
                 }
@@ -216,7 +262,6 @@ public class Checkers implements Cloneable {
         return false;
     }
 }
-
 
 
 
