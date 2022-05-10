@@ -199,6 +199,38 @@ public class Checkers implements Cloneable {
             }
             return false;
         }
+    
+    
+     public boolean performMove (Move m){
+        Position origin = m.getOrigin();
+        Position destination = m.getDestination();
+        ArrayList<Position> reachable = this.reachableFrom(origin);
+        if (reachable != null) {
+            for (Position position : reachable)
+                if (destination.getRank() == position.getRank()
+                        && destination.getPosition() == position.getPosition()) {
+                    this.board[destination.getRank()][destination.getPosition()] =
+                            this.board[origin.getRank()][origin.getPosition()];
+                    this.board[origin.getRank()][origin.getPosition()] = null;
+                    if (this.board[destination.getRank()][destination.getPosition()].getPieceColor() == PieceColor.WHITE) {
+                        if(destination.getRank()-origin.getRank()==1 || !eatable(destination))
+                    	{
+                        	color = PieceColor.BLACK;
+                        }
+                        
+                        return true;
+                    } else if (this.board[destination.getRank()][destination.getPosition()].getPieceColor() == PieceColor.BLACK) {
+                        if(destination.getRank()-origin.getRank()==1 || !eatable(destination)) {
+                    	color = PieceColor.WHITE;
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            return false;
+        }
+        return false;
+    }
     }
 
 
