@@ -129,15 +129,31 @@ public class Checkers implements Cloneable {
     /**
      * Checks if the game is over or if it still continues.
      * <p>
-     * Current version always returns <code>false</code>. The functionality will
-     * be fixed in future versions.
      *
      * @return true if and only if the game is over
      */
-    public boolean isGameOver () {
+       public boolean isGameOver () {
+    	int counter=0;
+    	for(int i=0; i<7;i++) {
+        	for(int j=0;j<7;j++) {
+        		
+        		if(this.getPieceAt(new Position(i,j)).getPieceColor()!=PieceColor.BLACK) {
+        			counter++;
+        			if(counter==64) {
+        			return true;
+        		}
+        		else if(this.getPieceAt(new Position(i,j)).getPieceColor()!=PieceColor.WHITE) {
+        			counter++;
+        			if(counter==64) {
+        				return true;
+        			}
+        		
+        		}
+        		}
+        	}
+        }
         return false;
     }
-
 
     /**
      * Checks if a given position on the board is empty.
