@@ -11,6 +11,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
+/**
+ * A class that created GUI for the program
+ * <code>am.aua.checkers.ui.CheckersUI</code>.
+ *
+ * @author Martin Palanjyan
+ * @author Arman Khachatryan
+ * @author Gor Hovakimyan
+ * References
+ * Martin Palanjyan's HW10
+ */
+
 public class CheckersUI extends JFrame implements ActionListener {
     private boolean flag;
     private boolean isHighlighted;
@@ -21,11 +32,16 @@ public class CheckersUI extends JFrame implements ActionListener {
     private JLabel textField = new JLabel();
     private BoardSquare[][] buttons = new BoardSquare[Checkers.BOARD_RANKS][Checkers.BOARD_FILES];
     private Position position;
-    private Position origin;
-    private Position destination;
+    private ArrayList<Position> positions = new ArrayList<>();
 
     public static final int Width = 1000;
     public static final int Height = 1000;
+
+    /**
+     * A no-arg constructor that contains all the visual style of the program
+     *
+     * @throws IllegalArrangementException
+     */
 
     public CheckersUI() throws IllegalArrangementException {
         super("Checkers");
@@ -36,13 +52,7 @@ public class CheckersUI extends JFrame implements ActionListener {
         setLayout(new FlowLayout());//
         titlePanel.setLayout(new BorderLayout());
         titlePanel.setBounds(0, 0, 100, 300);
-        textField.setBackground(Color.BLACK);
-        textField.setForeground(Color.ORANGE);
-        textField.setFont(new Font("Serif", Font.BOLD, 50));
-        textField.setHorizontalAlignment(JLabel.CENTER);
-        textField.setText("Checkers");
         buttonPanel.setLayout(new GridLayout(Checkers.BOARD_RANKS, Checkers.BOARD_FILES));
-        //buttonPanel.setBackground(Color.BLACK);
         for (int i = 0; i < Checkers.BOARD_RANKS; i++) {
             for (int j = 0; j < Checkers.BOARD_FILES; j++) {
                 if ((i + j) % 2 == 0) {
@@ -61,27 +71,24 @@ public class CheckersUI extends JFrame implements ActionListener {
                 buttons[i][j].addActionListener(e -> {
                     BoardSquare button = (BoardSquare) e.getSource();
                     boardClicked(button.getCoordinate());
-                    // updatePieces();
                 });
                 buttonPanel.add(buttons[i][j]);
             }
         }
 
-        titlePanel.add(textField);
         buttonPanel.setVisible(true);
         add(titlePanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * A method that performs the action when the click is made by the user.
+     * @param coordinates
+     */
+
     private void boardClicked(int[] coordinates) {
         this.position = new Position(coordinates[0], coordinates[1]);
-        ArrayList<Position> positions = new ArrayList<>();
-        positions.add(0, this.position);
-
-        if (!flag){
-            System.out.println(positions.get(0).toString());
-        }
-
+        positions.add(this.position);
         if (!flag) {
             if (game.getPieceAt(this.position) != null) {
                 if (game.isEmpty(this.position)) {
@@ -126,36 +133,47 @@ public class CheckersUI extends JFrame implements ActionListener {
                 }
             }
         } else {
-            System.out.println(positions.get(0).toString());
-//                this.position = new Position(coordinates[0], coordinates[1]);
-//                positions.add(1,this.position);
-//                success2 = game.performMove(new Move(positions.get(0), positions.get(1)));
-//                    if (!success2) {
-//                        System.out.println("Invalid");
-//                    }
-//                    flag = false;
-//
-//
-//                }
-        }
-    }
-
-
-        private void updatePieces () {
-            for (int i = 0; i < Checkers.BOARD_RANKS; i++) {
-                for (int j = 0; j < Checkers.BOARD_FILES; j++) {
-                    if (game.isEmpty(new Position(i, j))) {
-                        buttons[i][j].setPiece();
-                    } else {
-                        buttons[i][j].setPiece(game.getPieceAt(new Position(i, j)).toString());
-                    }
+            this.position = new Position(coordinates[0], coordinates[1]);
+            positions.add(this.position);
+            success2 = game.performMove(new Move(positions.get(0), positions.get(1)));
+            for (int j = 0; j < Checkers.BOARD_RANKS; j++) {
+                for (int k = 0; k < Checkers.BOARD_FILES; k++) {
+                    BoardSquare boardSquare = buttons[j][k];
+                    boardSquare.setHighlight(false);
                 }
-
             }
-        }
+            updatePieces();
+            if (!success2) {
+                System.out.println("Invalid");
+            }
+            flag = false;
+            positions.clear();
 
-
-        public void actionPerformed (ActionEvent e){
         }
     }
 
+    /**
+     * A method that updates the pieces on the board
+     */
+    private void updatePieces() {
+        for (int i = 0; i < Checkers.BOARD_RANKS; i++) {
+            for (int j = 0; j < Checkers.BOARD_FILES; j++) {
+                if (game.isEmpty(new Position(i, j))) {
+                    buttons[i][j].setPiece();
+                } else {
+                    buttons[i][j].setPiece(game.getPieceAt(new Position(i, j)).toString());
+                }
+            }
+
+        }
+    }
+
+    /**
+     * A method for giving an action to the button.
+     * @param e
+     */
+
+
+    public void actionPerformed(ActionEvent e) {
+    }
+}
