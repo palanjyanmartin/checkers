@@ -3,9 +3,9 @@ package am.aua.checkers.core;
 /**
  * The class Move
  * This class is created to get an opportunity to identify the origin position of our object and after using some methods being able to move it to the destination position.
- * @author martinpalanjyan
- * @author armankhachatryan
- * @author gorhovakimyan
+ * @author Martin Palanjyan
+ * @author Arman Khachatryan
+ * @author Gor Hovakimyan
  * References
  * Martin Palanjyan's Homework 07
  */
