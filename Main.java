@@ -1,13 +1,17 @@
-package am.aua.checkers;
-
-import am.aua.checkers.cli.*;
 import am.aua.checkers.core.IllegalArrangementException;
+import am.aua.checkers.ui.CheckersUI;
 
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) throws IllegalArrangementException {
-
-        CheckersConsole checkersConsole = new CheckersConsole();
-        checkersConsole.play();
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        CheckersUI checkersUI = new CheckersUI();
+        checkersUI.setVisible(true);
     }
+
 }
