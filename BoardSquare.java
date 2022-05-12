@@ -3,8 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BoardSquare extends JButton {
-    public static final Color dark = Color.BLACK;
     public static final Color light = Color.WHITE;
+    public static final Color dark = Color.GRAY;
     private int xCord;
     private int yCord;
     private Color color;
@@ -12,11 +12,11 @@ public class BoardSquare extends JButton {
     public BoardSquare(boolean color, int xCord, int yCord) {
         super();
         if (color) {
-            this.color = dark;
-            setBackground(Color.BLACK);
-        } else {
             this.color = light;
             setBackground(Color.WHITE);
+        } else {
+            this.color = dark;
+            setBackground(Color.GRAY);
         }
         this.xCord = xCord;
         this.yCord = yCord;
@@ -32,22 +32,25 @@ public class BoardSquare extends JButton {
 
 
     public void setPiece(String letter) {
-        if (letter.equals("M")) {
-            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/pics/ManW.png");
-            this.setIcon(icon);
-        } else if (letter.equals("m")) {
-            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/pics/ManB.png");
-            this.setIcon(icon);
-        } else if (letter.equals("K")) {
-            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/pics/KingW.png");
-            this.setIcon(icon);
-        } else if (letter.equals("k")) {
-            Icon icon = new ImageIcon(System.getProperty("user.dir") + "/src/pics/KingB.png");
-            this.setIcon(icon);
-        } else if (letter.equals(" ")) {
-            this.setPiece();
-        } else
-            System.out.println();
+        switch (letter) {
+            case "M" -> {
+                Icon icon = new ImageIcon("gfx/PawnW.png");
+                this.setIcon(icon);
+            }
+            case "m" -> {
+                Icon icon = new ImageIcon("gfx/PawnB.png");
+                this.setIcon(icon);
+            }
+            case "K" -> {
+                Icon icon = new ImageIcon("gfx/QueenW.png");
+                this.setIcon(icon);
+            }
+            case "k" -> {
+                Icon icon = new ImageIcon("gfx/QueenB.png");
+                this.setIcon(icon);
+            }
+            case " " -> this.setPiece();
+        }
     }
 
     public void setPiece() {
