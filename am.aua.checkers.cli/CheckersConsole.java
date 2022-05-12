@@ -12,7 +12,7 @@ import java.util.Scanner;
  * @author Arman Khachatryan
  * @author Gor Hovakimyan
  * References
- * Martin Palanjyan's HW08
+ * Martin Palanjyan's Homework 08
  */
 public class CheckersConsole {
     // an instance variable for a am.aua.Checkers.core.Checkers object
@@ -33,6 +33,7 @@ public class CheckersConsole {
                 System.out.println("White's move: ");
             else
                 System.out.println("Black's move: ");
+
             inputLine = sc.nextLine();
             String[] input = inputLine.split(" ");
             Position p1 = null, p2 = null;
@@ -43,10 +44,12 @@ public class CheckersConsole {
                     return;
                 }
 
-                if (input[0].equals("debug")) {
-                    print();
-                    continue;
-                }
+                if (input.length>=2)
+
+                    if (input[0].equals("debug")) {
+                        print();
+                        continue;
+                    }
 
                 p1 = Position.generateFromString(input[0]);
 
@@ -96,6 +99,7 @@ public class CheckersConsole {
      */
     public void print(Position origin) {
         ArrayList<Position> reachableSquares = game.reachableFrom(origin);
+        ArrayList<Position> eatableSquares = game.eatableFrom(origin);
 
         for (int i = 0; i < Checkers.BOARD_RANKS; i++) {
             System.out.print((Checkers.BOARD_RANKS - i) + " ");
@@ -111,6 +115,14 @@ public class CheckersConsole {
                         k < reachableSquares.size(); k++)
                     if (reachableSquares.get(k).getRank() == i &&
                             reachableSquares.get(k).getPosition() == j) {
+                        isHighlighted = true;
+                        break;
+                    }
+
+                for (int k = 0; eatableSquares != null &&
+                        k < eatableSquares.size(); k++)
+                    if (eatableSquares.get(k).getRank() == i &&
+                            eatableSquares.get(k).getPosition() == j) {
                         isHighlighted = true;
                         break;
                     }
