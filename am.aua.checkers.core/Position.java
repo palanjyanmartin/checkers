@@ -5,11 +5,13 @@ import java.util.ArrayList;
 /**
  * The class Position
  * This class is created to create positions that will be used in our Chess game. The user will input the position where the object will be located and the position where it should be moved.
- * @author martinpalanjyan
- * @author armankhachatryan
- * @author gorhovakimyan
+ * @author Martin Palanjyan
+ * @author Arman Khachatryan
+ * @author Gor Hovakimyan
+ 
  * References
  * Martin Palanjyan's Homework 08.
+ * Model Solutions(GenerateFromString method)
  */
 
 public class Position {
