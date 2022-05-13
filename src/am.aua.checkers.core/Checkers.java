@@ -45,10 +45,10 @@ public class Checkers implements Cloneable {
     public Checkers() throws IllegalArrangementException {
         this("-m-m-m-m" +
                         "m-m-m-m-" +
-                        "-----m-m" +
-                        "--m-m---" +
-                        "-M-----M" +
-                        "--M-M---" +
+                        "-m-m-m-m" +
+                        "--------" +
+                        "--------" +
+                        "M-M-M-M-" +
                         "-M-M-M-M" +
                         "M-M-M-M-",
                 PieceColor.WHITE);
